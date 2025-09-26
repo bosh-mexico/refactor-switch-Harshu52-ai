@@ -227,3 +227,6 @@ public class CheckoutDemo {
 
 ```
 
+Findings from code:
+1.Every time you add a new payment mode, you must open the checkout function and add another case.
+2.Harder to maintain as it grows.
