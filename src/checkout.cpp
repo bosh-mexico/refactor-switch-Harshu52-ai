@@ -3,26 +3,19 @@
 
 using namespace std;
 
-// Checkout function
+// Map PaymentMode to handler functions
+static const map<PaymentMode, function<void(double)>> paymentHandlers = {
+    {PaymentMode::PayPal,     [](double amount) { cout << "Processing PayPal payment of $" << amount << endl; }},
+    {PaymentMode::GooglePay,  [](double amount) { cout << "Processing GooglePay payment of $" << amount << endl; }},
+    {PaymentMode::CreditCard, [](double amount) { cout << "Processing Credit Card payment of $" << amount << endl; }}
+};
+
+// Checkout function without switch
 void checkout(PaymentMode mode, double amount) {
-    switch (mode) {
-        case PaymentMode::PayPal:
-            cout << "Processing PayPal payment of $" << amount << endl;
-            // Add PayPal-specific logic here
-            break;
-
-        case PaymentMode::GooglePay:
-            cout << "Processing GooglePay payment of $" << amount << endl;
-            // Add GooglePay-specific logic here
-            break;
-
-        case PaymentMode::CreditCard:
-            cout << "Processing Credit Card payment of $" << amount << endl;
-            // Add Credit Card-specific logic here
-            break;
-
-        default:
-            cout << "Invalid payment mode selected!" << endl;
-            break;
+    auto it = paymentHandlers.find(mode);
+    if (it != paymentHandlers.end()) {
+        it->second(amount); // Call the corresponding lambda
+    } else {
+        cout << "Invalid payment mode selected!" << endl;
     }
 }
